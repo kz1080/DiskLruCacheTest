@@ -13,11 +13,12 @@ public class Digester {
 
             StringBuilder builder = new StringBuilder();
             for (byte b : md5) {
-                if ((b & 0xff) < 0x10) {
-                    builder.append("0");
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    builder.append('0');
                 }
 
-                builder.append(Integer.toHexString(b & 0xff));
+                builder.append(hex);
             }
             hash = builder.toString();
         } catch (NoSuchAlgorithmException e) {
