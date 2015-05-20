@@ -54,6 +54,8 @@ public class DiskLruCacheHelper {
 
     /** 读取缓存。 */
     public static InputStream load(String keyCache) throws IOException {
+        if (mCache == null) throw new IllegalStateException("Must call openCache() first!");
+        
         DiskLruCache.Snapshot snapshot = mCache.get(keyCache);
 
         if (snapshot == null) return null;
