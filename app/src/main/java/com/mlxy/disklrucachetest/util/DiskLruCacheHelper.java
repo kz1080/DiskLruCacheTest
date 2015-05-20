@@ -49,16 +49,36 @@ public class DiskLruCacheHelper {
         outputStream.close();
 
         mEditor.commit();
-        mCache.flush();
     }
 
     /** 读取缓存。 */
     public static InputStream load(String keyCache) throws IOException {
         if (mCache == null) throw new IllegalStateException("Must call openCache() first!");
-        
+
         DiskLruCache.Snapshot snapshot = mCache.get(keyCache);
 
         if (snapshot == null) return null;
         else return snapshot.getInputStream(0);
+    }
+
+    /** 同步日志。 */
+    public static void syncJournal() {
+        try {
+            mCache.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** 关闭缓存。 */
+    public static void closeCache() {
+        if (!mCache.isClosed()) {
+            try {
+                mCache.close();
+                mCache = null;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
