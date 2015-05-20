@@ -1,5 +1,4 @@
 #DiskLruCacheTest
----
 
 一个DiskLruCache的演示程序。
 
