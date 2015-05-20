@@ -18,7 +18,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MainActivity extends Activity {
-    private static final String IMAGE_URL = "http://img0.ph.126.net/UIzxLtsQiRa5F0pDmxYHPQ==/3361374171980166522.jpg";
+    private static final String IMAGE_URL =
+            "http://img0.ph.126.net/UIzxLtsQiRa5F0pDmxYHPQ==/3361374171980166522.jpg";
+    private static final String IMAGE_URL2 =
+            "http://img0.ph.126.net/xHuDmVaJDfQjljWpYNTVLg==/6630346486070688495.jpg";
 
     private android.widget.ImageView imageView;
     private android.widget.ProgressBar progressBar;
@@ -118,5 +121,19 @@ public class MainActivity extends Activity {
                         Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // 同步日志。
+        DiskLruCacheHelper.syncJournal();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 关闭缓存。
+        DiskLruCacheHelper.closeCache();
     }
 }
